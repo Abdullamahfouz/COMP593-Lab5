@@ -2,6 +2,23 @@
 from poke_api import get_pokemon_info
 from pastebin_api import post_new_paste
 
+def main():
+    pokemon_name = get_pokemon_name()
+    print(f"Getting information for {pokemon_name}...")
+    pokemon_info = get_pokemon_info(pokemon_name)
+    if pokemon_info is not None:
+        title, body_text = construct_paste_title_and_body_text(pokemon_info)
+        url = post_new_paste(title, body_text, '1M', True)
+        if url is not None:
+            print(f"Posting new paste to PasteBin...success\n{url}")
+        else:
+            print("Posting new paste to PasteBin...failure")
+    else:
+        print(f"Getting information for {pokemon_name}...failure")
+
+
+
+
 def get_pokemon_name():
     """
     Gets the Pokémon name from the command line parameter.
@@ -32,19 +49,6 @@ def construct_paste_title_and_body_text(pokemon_info):
     body_text = abilities
     return (title, body_text)
 
-def main():
-    pokemon_name = get_pokemon_name()
-    print(f"Getting information for {pokemon_name}...")
-    pokemon_info = get_pokemon_info(pokemon_name)
-    if pokemon_info is not None:
-        title, body_text = construct_paste_title_and_body_text(pokemon_info)
-        url = post_new_paste(title, body_text, '1M', True)
-        if url is not None:
-            print(f"Posting new paste to PasteBin...success\n{url}")
-        else:
-            print("Posting new paste to PasteBin...failure")
-    else:
-        print(f"Getting information for {pokemon_name}...failure")
 
 if __name__ == '__main__':
     main()
